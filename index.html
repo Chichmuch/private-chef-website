@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анимация при скролле</title>
+    <title>Private Chef</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Georgia', serif;
             overflow-x: hidden;
             transition: all 0.3s ease;
         }
@@ -21,24 +21,26 @@
             --bg-primary: #1a1a1a;
             --bg-secondary: #2d2d2d;
             --bg-tertiary: #3a3a3a;
-            --bg-glass: rgba(45, 45, 45, 0);
-            --text-primary: #ffffff;
-            --text-secondary: #cccccc;
-            --accent-primary: #4ecdc4;
-            --accent-secondary: #ff6b6b;
-            --border: #404040;
+            --bg-glass: rgba(45, 45, 45, 0.1);
+            --text-primary: #f4f1e8;
+            --text-secondary: #d4c5a9;
+            --accent-primary: #b8860b;
+            --accent-secondary: #8b4513;
+            --border: #5a5a5a;
+            --hero-gradient: radial-gradient(circle at center, #2c2416 0%, #1a1a1a 100%);
         }
 
         .theme-light {
-            --bg-primary: #f5f5f5;
+            --bg-primary: #f9f6f0;
             --bg-secondary: #ffffff;
-            --bg-tertiary: #e0e0e0;
-            --bg-glass: rgba(255, 255, 255, 0);
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --accent-primary: #2196f3;
-            --accent-secondary: #ff5722;
-            --border: #ddd;
+            --bg-tertiary: #f0ead6;
+            --bg-glass: rgba(255, 255, 255, 0.1);
+            --text-primary: #2c2416;
+            --text-secondary: #5a5a5a;
+            --accent-primary: #8b4513;
+            --accent-secondary: #b8860b;
+            --border: #d4c5a9;
+            --hero-gradient: radial-gradient(circle at center, #f9f6f0 0%, #f0ead6 100%);
         }
 
         body {
@@ -46,7 +48,7 @@
             color: var(--text-primary);
         }
 
-        /* Фоновое изображение */
+        /* Background image only for main content */
         .background-image {
             position: fixed;
             top: 0;
@@ -57,60 +59,28 @@
             background-size: cover;
             background-position: center;
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
 
-        .theme-light .background-image {
-            opacity: 0.3;
+        .background-image.visible {
+            opacity: 0.2;
         }
 
-        /* Панель управления */
-        .controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            gap: 10px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: var(--bg-glass);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        .theme-light .background-image.visible {
+            opacity: 0.15;
         }
 
-        .control-button {
-            background: transparent;
-            border: 2px solid var(--accent-primary);
-            color: var(--accent-primary);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .control-button:hover {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            transform: translateY(-2px);
-        }
-
-        .control-button.active {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-
+        /* Hero section with radial gradient background */
         .hero-section {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
+            background: var(--hero-gradient);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -124,43 +94,146 @@
         }
 
         .hero-content {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: var(--bg-glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3rem;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transform: scale(1);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-section.hidden .hero-content {
+            transform: scale(0.7);
         }
 
         .hero-title {
-            font-size: 4rem;
-            font-weight: bold;
+            font-size: 5rem;
+            font-weight: normal;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite;
+            color: var(--accent-primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.05em;
             transform: scale(1);
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--text-secondary);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            font-style: italic;
+            letter-spacing: 0.02em;
         }
 
         .hero-section.hidden .hero-title {
             transform: scale(0.6);
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        /* Hero controls positioned at bottom center */
+        .hero-controls {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-section.hidden .hero-controls {
+            transform: translateX(-50%) scale(0.7);
+            opacity: 0;
+        }
+
+        /* Main content controls positioned at top */
+        .main-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            gap: 15px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-controls.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .control-button {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'Georgia', serif;
+        }
+
+        .control-button:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(184, 134, 11, 0.3);
+        }
+
+        .control-button.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Language flag buttons */
+        .lang-button {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .lang-button.active {
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 20px rgba(184, 134, 11, 0.5);
+        }
+
+        .lang-button svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .theme-button {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.3);
         }
 
         .main-content {
@@ -178,14 +251,14 @@
         }
 
         .content-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
         }
 
         .content-section {
             margin-bottom: 3rem;
-            padding: 4rem;
+            padding: 3rem;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             background: var(--bg-glass);
@@ -196,37 +269,26 @@
 
         .content-section h2 {
             color: var(--accent-primary);
-            margin-bottom: 1rem;
-            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            font-weight: normal;
         }
 
         .content-section p {
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 1rem;
             color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--accent-primary);
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-            z-index: 1001;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
+        .content-section ul {
+            margin-left: 2rem;
         }
 
-        .scroll-indicator.hidden {
-            opacity: 0;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
+        .content-section li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
         .card {
@@ -242,7 +304,20 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+            box-shadow: 0 15px 40px rgba(184, 134, 11, 0.2);
+        }
+
+        .card h2 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            font-weight: normal;
+        }
+
+        .card p {
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
         }
 
         .highlight {
@@ -250,264 +325,311 @@
             font-weight: bold;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .feature-card {
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: var(--bg-glass);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--accent-primary);
-        }
-
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
-            .hero-content {
-                padding: 2rem;
-                margin: 1rem;
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-controls {
+                bottom: 60px;
+                gap: 15px;
+            }
+            
+            .lang-button {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .lang-button svg {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .theme-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
             
             .content-wrapper {
                 padding: 1rem;
             }
 
-            .controls {
-                flex-direction: column;
+            .main-controls {
                 top: 10px;
                 right: 10px;
+                gap: 10px;
             }
         }
     </style>
-    </head>
-    <body class="theme-dark">
-        <div class="background-image"></div>
+</head>
+<body class="theme-dark">
+    <div class="background-image" id="backgroundImage"></div>
+    
+    <div class="hero-section" id="heroSection">
+        <div class="hero-content">
+            <h1 class="hero-title" data-ru="Александр" data-en="Alexander" data-ua="Олександр" data-pl="Aleksander">Alexander</h1>
+            <p class="hero-subtitle" data-ru="Частный Повар" data-en="Private Chef" data-ua="Приватний Кухар" data-pl="Prywatny Kucharz">Private Chef</p>
+        </div>
         
-        <div class="controls">
-            <button class="control-button" id="themeToggle">🌙</button>
-            <button class="control-button active" id="langEn">EN</button>
-            <button class="control-button" id="langPl">PL</button>
-            <button class="control-button" id="langUa">UA</button>
-            <button class="control-button" id="langRu">RU</button>
+        <div class="hero-controls">
+            <button class="theme-button" id="themeToggle">🌙</button>
+            <button class="lang-button active" id="langEn">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="4" width="20" height="16" rx="2" fill="#012169"/>
+                    <path d="M2 4L22 20M22 4L2 20" stroke="#fff" stroke-width="2"/>
+                    <path d="M12 4V20M2 12H22" stroke="#fff" stroke-width="3"/>
+                    <path d="M12 4V20M2 12H22" stroke="#C8102E" stroke-width="2"/>
+                </svg>
+            </button>
+            <button class="lang-button" id="langPl">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="4" width="20" height="8" fill="#fff"/>
+                    <rect x="2" y="12" width="20" height="8" fill="#DC143C"/>
+                </svg>
+            </button>
+            <button class="lang-button" id="langUa">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="4" width="20" height="8" fill="#0057B7"/>
+                    <rect x="2" y="12" width="20" height="8" fill="#FFD700"/>
+                </svg>
+            </button>
+            <button class="lang-button" id="langRu">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="4" width="20" height="5.33" fill="#fff"/>
+                    <rect x="2" y="9.33" width="20" height="5.33" fill="#0039A6"/>
+                    <rect x="2" y="14.67" width="20" height="5.33" fill="#D52B1E"/>
+                </svg>
+            </button>
         </div>
+    </div>
 
-        <div class="hero-section" id="heroSection">
-            <div class="hero-content">
-                <h1 class="hero-title" data-ru="Александр" data-en="Alexander">Alexander</h1>
-                <p class="hero-subtitle" data-ru="Часный Повар" data-en="Private Chief">Private Chief</p>
+    <div class="main-controls" id="mainControls">
+        <button class="control-button" id="themeToggleMain">🌙</button>
+        <button class="control-button active" id="langEnMain">EN</button>
+        <button class="control-button" id="langPlMain">PL</button>
+        <button class="control-button" id="langUaMain">UA</button>
+        <button class="control-button" id="langRuMain">RU</button>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="content-wrapper">
+            <div class="content-section">
+                <h2 data-en="About Me" data-ru="Обо мне" data-ua="Про мене" data-pl="O mnie">About Me</h2>
+                <p data-en="My name is Alexander, a private chef with over 10 years of experience crafting personalized gourmet meals for families, couples, and events. I bring the elegance of fine dining to the comfort of your home."
+                  data-ru="Меня зовут Александр, я частный повар с более чем 10-летним опытом приготовления персонализированных блюд для семей, пар и мероприятий. Я приношу элегантность ресторанной кухни в уют вашего дома."
+                  data-ua="Мене звати Олександр, я приватний кухар з понад 10-річним досвідом приготування індивідуальних страв для сімей, пар і подій. Я приношу елегантність ресторанної кухні до вашої оселі."
+                  data-pl="Nazywam się Aleksander, jestem prywatnym kucharzem z ponad 10-letnim doświadczeniem w przygotowywaniu spersonalizowanych dań dla rodzin, par i imprez. Przenoszę elegancję fine diningu do Twojego domu.">
+                  My name is Alexander, a private chef with over 10 years of experience crafting personalized gourmet meals for families, couples, and events. I bring the elegance of fine dining to the comfort of your home.
+                </p>
             </div>
-            <div class="scroll-indicator" id="scrollIndicator">↓</div>
-        </div>
 
-        <div class="main-content" id="mainContent">
-      <div class="content-wrapper">
-        <div class="content-section">
-          <h2 data-en="About Me" data-ru="Обо мне" data-ua="Про мене" data-pl="O mnie">About Me</h2>
-          <p data-en="My name is Alexander, a private chef with over 10 years of experience crafting personalized gourmet meals for families, couples, and events. I bring the elegance of fine dining to the comfort of your home."
-            data-ru="Меня зовут Александр, я частный повар с более чем 10-летним опытом приготовления персонализированных блюд для семей, пар и мероприятий. Я приношу элегантность ресторанной кухни в уют вашего дома."
-            data-ua="Мене звати Олександр, я приватний кухар з понад 10-річним досвідом приготування індивідуальних страв для сімей, пар і подій. Я приношу елегантність ресторанної кухні до вашої оселі."
-            data-pl="Nazywam się Aleksander, jestem prywatnym kucharzem z ponad 10-letnim doświadczeniem w przygotowywaniu spersonalizowanych dań dla rodzin, par i imprez. Przenoszę elegancję fine diningu do Twojego domu.">
-            My name is Alexander, a private chef with over 10 years of experience crafting personalized gourmet meals for families, couples, and events. I bring the elegance of fine dining to the comfort of your home.
-          </p>
-        </div>
+            <div class="content-section">
+                <h2 data-en="Services" data-ru="Услуги" data-ua="Послуги" data-pl="Usługi">Services</h2>
+                <ul>
+                    <li data-en="Personalized home dining experiences"
+                        data-ru="Персонализированные ужины дома"
+                        data-ua="Персоналізовані вечері вдома"
+                        data-pl="Spersonalizowane kolacje w domu">Personalized home dining experiences</li>
+                    <li data-en="Weekly meal prep tailored to your diet"
+                        data-ru="Еженедельная подготовка блюд по вашему рациону"
+                        data-ua="Щотижнева підготовка страв за вашим раціоном"
+                        data-pl="Cotygodniowe przygotowywanie posiłków zgodnie z Twoją dietą">Weekly meal prep tailored to your diet</li>
+                    <li data-en="Private events & celebrations"
+                        data-ru="Частные мероприятия и торжества"
+                        data-ua="Приватні заходи та свята"
+                        data-pl="Prywatne wydarzenia i uroczystości">Private events & celebrations</li>
+                    <li data-en="Cooking classes & culinary workshops"
+                        data-ru="Кулинарные мастер-классы"
+                        data-ua="Кулінарні майстер-класи"
+                        data-pl="Warsztaty kulinarne">Cooking classes & culinary workshops</li>
+                </ul>
+            </div>
 
-        <div class="content-section">
-          <h2 data-en="Services" data-ru="Услуги" data-ua="Послуги" data-pl="Usługi">Services</h2>
-          <ul>
-            <li data-en="• Personalized home dining experiences"
-                data-ru="• Персонализированные ужины дома"
-                data-ua="• Персоналізовані вечері вдома"
-                data-pl="• Spersonalizowane kolacje w domu">• Personalized home dining experiences</li>
-            <li data-en="• Weekly meal prep tailored to your diet"
-                data-ru="• Еженедельная подготовка блюд по вашему рациону"
-                data-ua="• Щотижнева підготовка страв за вашим раціоном"
-                data-pl="• Cotygodniowe przygotowywanie posiłków zgodnie z Twoją dietą">• Weekly meal prep tailored to your diet</li>
-            <li data-en="• Private events & celebrations"
-                data-ru="• Частные мероприятия и торжества"
-                data-ua="• Приватні заходи та свята"
-                data-pl="• Prywatne wydarzenia i uroczystości">• Private events & celebrations</li>
-            <li data-en="• Cooking classes & culinary workshops"
-                data-ru="• Кулинарные мастер-классы"
-                data-ua="• Кулінарні майстер-класи"
-                data-pl="• Warsztaty kulinarne">• Cooking classes & culinary workshops</li>
-          </ul>
-        </div>
+            <div class="card">
+                <h2 data-en="Cuisine" data-ru="Кухня" data-ua="Кухня" data-pl="Kuchnia">Cuisine</h2>
+                <p data-en="From classic European dishes to modern fusion and plant-based menus — I adapt to your preferences, sourcing only the freshest local ingredients."
+                  data-pl="Od klasycznych dań europejskich po nowoczesną kuchnię fusion i wegańskie menu — dostosowuję się do Twoich preferencji, używając świeżych lokalnych składników."
+                  data-ua="Від класичної європейської кухні до сучасного фʼюжну та рослинного меню — я адаптуюсь до ваших вподобань, використовуючи лише свіжі місцеві інгредієнти."
+                  data-ru="От классических европейских блюд до современной фьюжн-кухни и вегетарианских меню — я подстраиваюсь под ваши предпочтения, используя только свежие местные ингредиенты.">
+                  From classic European dishes to modern fusion and plant-based menus — I adapt to your preferences, sourcing only the freshest local ingredients.
+                </p>
+            </div>
 
-        <div class="card">
-          <h2 data-en="Cuisine" data-ru="Кухня" data-ua="Кухня" data-pl="Kuchnia">Cuisine</h2>
-          <p data-en="From classic European dishes to modern fusion and plant-based menus — I adapt to your preferences, sourcing only the freshest local ingredients."
-            data-pl="Od klasycznych dań europejskich po nowoczesną kuchnię fusion i wegańskie menu — dostosowuję się do Twoich preferencji, używając świeżych lokalnych składników."
-            data-ua="Від класичної європейської кухні до сучасного фʼюжну та рослинного меню — я адаптуюсь до ваших вподобань, використовуючи лише свіжі місцеві інгредієнти."
-            data-ru="От классических европейских блюд до современной фьюжн-кухни и вегетарианских меню — я подстраиваюсь под ваши предпочтения, используя только свежие местные ингредиенты.">
-            From classic European dishes to modern fusion and plant-based menus — I adapt to your preferences, sourcing only the freshest local ingredients.
-          </p>
+            <div class="content-section">
+                <h2 data-en="Contact Me" data-ru="Связаться со мной" data-ua="Зв'язатися зі мною" data-pl="Skontaktuj się ze mną">Contact Me</h2>
+                <p data-en="Ready to book a private dinner or request a quote? Reach out below — I'll respond within 24 hours."
+                  data-pl="Gotowy na zamówienie prywatnej kolacji lub zapytanie o ofertę? Skontaktuj się poniżej — odpowiem w ciągu 24 godzin."
+                  data-ua="Готові замовити вечерю або отримати пропозицію? Напишіть мені нижче — я відповім протягом 24 годин."
+                  data-ru="Готовы заказать ужин или получить предложение? Свяжитесь со мной ниже — я отвечу в течение 24 часов.">
+                  Ready to book a private dinner or request a quote? Reach out below — I'll respond within 24 hours.
+                </p>
+                <p><strong>Email:</strong> <a href="mailto:chef.alexander@example.com" style="color: var(--accent-primary);">chef.alexander@example.com</a></p>
+                <p><strong>Phone:</strong> +1 (555) 123‑4567</p>
+            </div>
         </div>
-
-        <div class="content-section">
-          <h2 data-en="Contact Me" data-ru="Связаться со мной" data-ua="Зв'язатися зі мною" data-pl="Skontaktuj się ze mną">Contact Me</h2>
-          <p data-en="Ready to book a private dinner or request a quote? Reach out below — I’ll respond within 24 hours."
-            data-pl="Gotowy na zamówienie prywatnej kolacji lub zapytanie o ofertę? Skontaktuj się poniżej — odpowiem w ciągu 24 godzin."
-            data-ua="Готові замовити вечерю або отримати пропозицію? Напишіть мені нижче — я відповім протягом 24 годин."
-            data-ru="Готовы заказать ужин или получить предложение? Свяжитесь со мной ниже — я отвечу в течение 24 часов.">
-            Ready to book a private dinner or request a quote? Reach out below — I’ll respond within 24 hours.
-          </p>
-          <p><strong>Email:</strong> <a href="mailto:chef.alexander@example.com">chef.alexander@example.com</a></p>
-          <p><strong>Phone:</strong> +1 (555) 123‑4567</p>
-        </div>
-      </div>
     </div>
 
     <script>
-      let isTransitioning = false;
-      let isMainContentVisible = false;
-      let currentLang = 'ru';
-      let currentTheme = 'dark';
+        let isTransitioning = false;
+        let isMainContentVisible = false;
+        let currentLang = 'en';
+        let currentTheme = 'dark';
 
-      const heroSection = document.getElementById('heroSection');
-      const mainContent = document.getElementById('mainContent');
-      const scrollIndicator = document.getElementById('scrollIndicator');
-      const themeToggle = document.getElementById('themeToggle');
-      const langRu = document.getElementById('langRu');
-      const langEn = document.getElementById('langEn');
+        const heroSection = document.getElementById('heroSection');
+        const mainContent = document.getElementById('mainContent');
+        const mainControls = document.getElementById('mainControls');
+        const backgroundImage = document.getElementById('backgroundImage');
+        
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMain = document.getElementById('themeToggleMain');
+        
+        const langButtons = {
+            hero: {
+                en: document.getElementById('langEn'),
+                pl: document.getElementById('langPl'),
+                ua: document.getElementById('langUa'),
+                ru: document.getElementById('langRu')
+            },
+            main: {
+                en: document.getElementById('langEnMain'),
+                pl: document.getElementById('langPlMain'),
+                ua: document.getElementById('langUaMain'),
+                ru: document.getElementById('langRuMain')
+            }
+        };
 
-      const langUa = document.getElementById('langUa');
-      const langPl = document.getElementById('langPl');
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update hero buttons
+            Object.keys(langButtons.hero).forEach(key => {
+                langButtons.hero[key].classList.toggle('active', key === lang);
+            });
+            
+            // Update main buttons
+            Object.keys(langButtons.main).forEach(key => {
+                langButtons.main[key].classList.toggle('active', key === lang);
+            });
+            
+            // Update text content
+            const elementsWithLang = document.querySelectorAll('[data-en]');
+            elementsWithLang.forEach(element => {
+                if (element.hasAttribute(`data-${lang}`)) {
+                    element.textContent = element.getAttribute(`data-${lang}`);
+                }
+            });
 
-      function switchLanguage(lang) {
-          currentLang = lang;
-          
-          langRu.classList.toggle('active', lang === 'ru');
-          langEn.classList.toggle('active', lang === 'en');
-          langUa.classList.toggle('active', lang === 'ua');
-          langPl.classList.toggle('active', lang === 'pl');
-          
-          const elementsWithLang = document.querySelectorAll('[data-ru][data-en]');
-          elementsWithLang.forEach(element => {
-              if (element.hasAttribute(`data-${lang}`)) {
-                  element.textContent = element.getAttribute(`data-${lang}`);
-              }
-          });
+            document.documentElement.lang = lang;
+        }
 
-          document.documentElement.lang = lang;
-      }
+        function showMainContent() {
+            if (isTransitioning || isMainContentVisible) return;
+            
+            isTransitioning = true;
+            isMainContentVisible = true;
+            
+            heroSection.classList.add('hidden');
+            backgroundImage.classList.add('visible');
+            
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+                mainControls.classList.add('visible');
+                document.body.style.overflowY = 'auto';
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 600);
+            }, 300);
+        }
 
-      function showMainContent() {
-          if (isTransitioning || isMainContentVisible) return;
-          
-          isTransitioning = true;
-          isMainContentVisible = true;
-          
-          heroSection.classList.add('hidden');
-          scrollIndicator.classList.add('hidden');
-          
-          setTimeout(() => {
-              mainContent.classList.add('visible');
-              document.body.style.overflowY = 'auto';
-              
-              setTimeout(() => {
-                  isTransitioning = false;
-              }, 600);
-          }, 300);
-      }
+        function showHeroSection() {
+            if (isTransitioning || !isMainContentVisible) return;
+            
+            isTransitioning = true;
+            isMainContentVisible = false;
+            
+            mainContent.classList.remove('visible');
+            mainControls.classList.remove('visible');
+            backgroundImage.classList.remove('visible');
+            document.body.style.overflowY = 'hidden';
+            
+            setTimeout(() => {
+                heroSection.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 600);
+            }, 300);
+        }
 
-      function showHeroSection() {
-          if (isTransitioning || !isMainContentVisible) return;
-          
-          isTransitioning = true;
-          isMainContentVisible = false;
-          
-          mainContent.classList.remove('visible');
-          document.body.style.overflowY = 'hidden';
-          
-          setTimeout(() => {
-              heroSection.classList.remove('hidden');
-              scrollIndicator.classList.remove('hidden');
-              
-              setTimeout(() => {
-                  isTransitioning = false;
-              }, 600);
-          }, 300);
-      }
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.className = `theme-${currentTheme}`;
+            const themeIcon = currentTheme === 'dark' ? '🌙' : '☀️';
+            themeToggle.textContent = themeIcon;
+            themeToggleMain.textContent = themeIcon;
+        }
 
-      function toggleTheme() {
-          currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-          document.body.className = `theme-${currentTheme}`;
-          themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-      }
+        // Event listeners for wheel scroll
+        window.addEventListener('wheel', (e) => {
+            if (isTransitioning) {
+                e.preventDefault();
+                return;
+            }
 
-      window.addEventListener('wheel', (e) => {
-          if (isTransitioning) {
-              e.preventDefault();
-              return;
-          }
+            if (!isMainContentVisible && e.deltaY > 0) {
+                e.preventDefault();
+                showMainContent();
+            } else if (isMainContentVisible && e.deltaY < 0 && window.scrollY === 0) {
+                e.preventDefault();
+                showHeroSection();
+            }
+        }, { passive: false });
 
-          if (!isMainContentVisible && e.deltaY > 0) {
-              e.preventDefault();
-              showMainContent();
-          } else if (isMainContentVisible && e.deltaY < 0 && window.scrollY === 0) {
-              e.preventDefault();
-              showHeroSection();
-          }
-      }, { passive: false });
+        // Touch events for mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
 
-      let touchStartY = 0;
-      let touchEndY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
 
-      window.addEventListener('touchstart', (e) => {
-          touchStartY = e.touches[0].clientY;
-      });
+        window.addEventListener('touchmove', (e) => {
+            if (isTransitioning) {
+                e.preventDefault();
+                return;
+            }
 
-      window.addEventListener('touchmove', (e) => {
-          if (isTransitioning) {
-              e.preventDefault();
-              return;
-          }
+            touchEndY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchEndY;
 
-          touchEndY = e.touches[0].clientY;
-          const deltaY = touchStartY - touchEndY;
+            if (!isMainContentVisible && deltaY > 50) {
+                e.preventDefault();
+                showMainContent();
+            } else if (isMainContentVisible && deltaY < -50 && window.scrollY === 0) {
+                e.preventDefault();
+                showHeroSection();
+            }
+        }, { passive: false });
 
-          if (!isMainContentVisible && deltaY > 50) {
-              e.preventDefault();
-              showMainContent();
-          } else if (isMainContentVisible && deltaY < -50 && window.scrollY === 0) {
-              e.preventDefault();
-              showHeroSection();
-          }
-      }, { passive: false });
+        // Theme toggle event listeners
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMain.addEventListener('click', toggleTheme);
 
-      themeToggle.addEventListener('click', toggleTheme);
-      langEn.addEventListener('click', () => switchLanguage('en'));
-      langPl.addEventListener('click', () => switchLanguage('pl'));
-      langUa.addEventListener('click', () => switchLanguage('ua'));
-      langRu.addEventListener('click', () => switchLanguage('ru'));
-      scrollIndicator.addEventListener('click', () => {
-          if (!isTransitioning) {
-              showMainContent();
-          }
-      });
+        // Language button event listeners
+        Object.keys(langButtons.hero).forEach(lang => {
+            langButtons.hero[lang].addEventListener('click', () => switchLanguage(lang));
+            langButtons.main[lang].addEventListener('click', () => switchLanguage(lang));
+        });
 
-      document.body.style.overflowY = 'hidden';
+        // Initialize
+        document.body.style.overflowY = 'hidden';
+        switchLanguage('en');
     </script>
 </body>
 </html>
