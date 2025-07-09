@@ -142,3 +142,67 @@ Object.keys(langButtons.hero).forEach(lang => {
 
 document.body.style.overflowY = 'hidden';
 switchLanguage('en');
+
+
+
+
+
+    const wrapper = document.getElementById('floating-image-wrapper');
+    const image   = document.getElementById('floating-image');
+
+    let lastTarget = null;
+    let flipSide   = false;
+
+    function getCenterY(elem) {
+      const r = elem.getBoundingClientRect();
+      return r.top + r.height / 2;
+    }
+
+    function moveToNearestBlock() {
+      const blocks = document.querySelectorAll('.content-section');
+      const cy     = window.innerHeight / 2;
+      let minD     = Infinity;
+      let closest  = null;
+
+      blocks.forEach(b => {
+        const d = Math.abs(cy - getCenterY(b));
+        if (d < minD) {
+          minD    = d;
+          closest = b;
+        }
+      });
+
+      if (closest && closest !== lastTarget) {
+        flipSide = !flipSide;
+        const r   = closest.getBoundingClientRect();
+        const top = r.top + window.scrollY + r.height / 2 - wrapper.offsetHeight / 2;
+        const left = flipSide
+          ? r.left + r.width + 10   // справа
+          : r.left - wrapper.offsetWidth - 10; // слева
+
+        // Плавное перекручивание 360° вокруг своего центра
+        wrapper.animate([
+          { transform: 'translate(0,0) rotate(0deg)' },
+          { transform: 'translate(0,0) rotate(360deg)' }
+        ], {
+          duration: 800,
+          easing: 'ease-in-out'
+        });
+
+        // Устанавливаем позицию контейнера
+        wrapper.style.top  = `${top}px`;
+        wrapper.style.left = `${left}px`;
+
+        // А теперь инверсия — только на <img>
+        image.style.transform = flipSide
+          ? 'scaleX(-1)'
+          : 'scaleX(1)';
+
+        lastTarget = closest;
+      }
+    }
+
+    window.addEventListener('scroll', moveToNearestBlock);
+    window.addEventListener('resize', moveToNearestBlock);
+    setInterval(moveToNearestBlock, 500);
+    moveToNearestBlock();
