@@ -1,3 +1,11 @@
+html, body {
+    height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +16,7 @@ body {
     font-family: 'Georgia', serif;
     overflow-x: hidden;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .theme-dark {
@@ -51,24 +60,23 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-bg-rotating {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -15%;
+    width: 120%;
+    height: 120%;
     background: url('hero-bg.png');
     background-size: cover;
     background-position: center;
     z-index: 0;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1), opacity 3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-section.hidden .hero-bg-rotating {
-    transform: rotate(180deg) scale(0.3);
+    transform: rotate(120deg) scale(2);
     opacity: 0;
 }
 
@@ -93,7 +101,7 @@ body {
     text-align: center;
     position: relative;
     z-index: 2;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-title {
@@ -116,19 +124,53 @@ body {
 
 .hero-controls {
     position: absolute;
-    bottom: 80px;
+    bottom: calc(50% - 150px);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 4px;
     align-items: center;
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
 }
 
 .hero-section.hidden .hero-controls {
-    transform: translateX(-50%) translateY(-50vh) scale(0.1);
+    transform: translateX(-50%) translateY(-150px) scale(0);
     opacity: 0;
+    transition: transform 2.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-section.hidden .hero-content {
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1), opacity 3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    margin-left: -200px;
+    margin-top: -200px;
+    pointer-events: none;
+    z-index: 2;
+    animation: orbit-rotate 10s linear infinite;
+}
+
+.hero-orbit-img {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    left: 50%;
+    top: 50%;
+    transform-origin: 50% 0%;
+}
+
+@keyframes orbit-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .main-controls {
@@ -139,13 +181,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    transform: scale(0.8);
+    transform: translateX(100%);
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-controls.visible {
     transform: scale(1);
+    transition-delay: 2s;
     opacity: 1;
 }
 
@@ -221,40 +264,75 @@ body {
     color: var(--bg-primary);
 }
 
-.main-content {
-    position: relative;
-    min-height: 100vh;
+.main-bg-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
     background: var(--bg-primary);
     background-image: url('bg.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    transform: scale(0.9);
+    pointer-events: none;
+    z-index: -5000;
+}
+
+@keyframes riseUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-content {
+    position: relative;
+    min-height: 100vh;
+    height: 100%;
+    background: transparent;
+    transform: scale(1);
     opacity: 0;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 500;
+    transition: all 3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
 .main-content.visible {
     transform: scale(1);
     opacity: 1;
+    animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
 }
 
 .content-wrapper {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
+    min-width: 0;
+    width: 100%;
 }
 
 .content-section {
     margin-bottom: 3rem;
     padding: 3rem;
+    min-width: 0;
+    width: 100%;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(40px);
+    animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
+}
+
+.main-content.visible .content-section {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .content-section h2 {
@@ -324,6 +402,14 @@ body {
     padding: 2rem;
     text-align: center;
     transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
+}
+
+.main-content.visible .service-card {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .service-card:hover {
@@ -357,6 +443,14 @@ body {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
+}
+
+.main-content.visible .menu-item {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .menu-item:hover {
@@ -389,6 +483,14 @@ body {
     margin: 2rem 0;
     position: relative;
     font-style: italic;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
+}
+
+.main-content.visible .testimonial {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .testimonial::before {
@@ -445,7 +547,7 @@ body {
     }
     
     .content-wrapper {
-        padding: 1rem;
+        padding: 0.5rem;
     }
 
     .main-controls {
@@ -456,5 +558,20 @@ body {
 
     .services-grid {
         grid-template-columns: 1fr;
+    }
+
+    .content-section {
+        padding: 1.2rem;
+    }
+
+    .hero-orbit {
+        width: 220px;
+        height: 220px;
+        margin-left: -110px;
+        margin-top: -110px;
+    }
+    .hero-orbit-img {
+        width: 36px;
+        height: 36px;
     }
 }
