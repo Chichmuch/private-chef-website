@@ -21,32 +21,28 @@ body {
 }
 
 .theme-dark {
-    --bg-primary: #102820;
-    --bg-secondary: #4C6444;
-    --bg-tertiary: #CABA9C;
+    --dark-green: #102820;
+    --green: #4C6444;
+    --khaki: #CABA9C;
+    --umber: #8A6240;
+    --brown: #4D2D18;
     --bg-glass: rgba(76, 100, 68, 0.1);
-    --text-primary: #CABA9C;
-    --text-secondary: #8A6240;
-    --accent-primary: #8A6240;
-    --accent-secondary: #4D2D18;
     --border: #4C6444;
 }
 
 .theme-light {
-    --bg-primary: #CABA9C;
-    --bg-secondary: #8A6240;
-    --bg-tertiary: #4C6444;
+    --dark-green: #CABA9C;
+    --green: #8A6240;
+    --khaki: #102820;
+    --umber: #4C6444;
+    --brown: #4D2D18;
     --bg-glass: rgba(202, 186, 156, 0.1);
-    --text-primary: #4D2D18;
-    --text-secondary: #102820;
-    --accent-primary: #102820;
-    --accent-secondary: #4C6444;
-    --border: #8A6240;
+    --border: #4C6444;
 }
 
 body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
+    background: var(--dark-green);
+    color: var(--khaki);
 }
 
 .hero-section {
@@ -88,8 +84,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--bg-primary);
+    background: var(--dark-green);
     opacity: 0.7;
+    mix-blend-mode: hard-light;
     z-index: 1;
 }
 
@@ -110,7 +107,7 @@ body {
     font-size: 7rem;
     font-weight: normal;
     margin-bottom: 1rem;
-    color: var(--text-primary);
+    color: var(--khaki);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.05em;
 }
@@ -118,7 +115,7 @@ body {
 .hero-subtitle {
     font-family: 'Great Vibes';
     font-size: 4rem;
-    color: var(--text-secondary);
+    color: var(--umber);
     margin-bottom: 3rem;
     letter-spacing: 0.02em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -213,7 +210,7 @@ body {
 .control-button {
     background: rgba(202, 186, 156, 0.1);
     border: none;
-    color: var(--text-primary);
+    color: var(--umber);
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
@@ -224,14 +221,14 @@ body {
 }
 
 .control-button:hover {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
+    background: var(--green);
+    color: var(--khaki);
     transform: translateY(-2px);
 }
 
 .control-button.active {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
+    background: var(--dark-green);
+    color: var(--khaki);
 }
 
 .lang-button {
@@ -247,18 +244,18 @@ body {
     justify-content: center;
     font-size: 12px;
     font-weight: bold;
-    color: var(--text-primary);
+    color: var(--khaki);
 }
 
 .lang-button:hover {
+    background: var(--green);
+    color: var(--khaki);
     transform: translateY(-2px);
-    background: var(--accent-primary);
-    color: var(--bg-primary);
 }
 
 .lang-button.active {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
+    background: var(--dark-green);
+    color: var(--khaki);
 }
 
 .theme-button {
@@ -273,13 +270,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
+    color: var(--khaki);
 }
 
 .theme-button:hover {
+    background: var(--green);
+    color: var(--khaki);
     transform: translateY(-2px);
-    background: var(--accent-primary);
-    color: var(--bg-primary);
 }
 
 .main-bg-fixed {
@@ -288,7 +285,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100%;
-    background: var(--bg-primary);
+    background: var(--dark-green);
     background-image: url('bg.jpg');
     background-size: cover;
     background-position: center;
@@ -354,7 +351,6 @@ body {
 }
 
 .content-section h2 {
-    color: var(--accent-primary);
     margin-bottom: 1.5rem;
     font-family: 'Cormorant Unicase';
     font-size: 3.2rem;
@@ -363,7 +359,6 @@ body {
 .content-section p {
     line-height: 1.8;
     margin-bottom: 1rem;
-    color: var(--text-secondary);
     font-size: 1.5rem;
 }
 
@@ -373,7 +368,6 @@ body {
 
 .content-section li {
     margin-bottom: 0.8rem;
-    color: var(--text-secondary);
     font-size: 1.1rem;
 }
 
@@ -394,14 +388,12 @@ body {
 }
 
 .card h2 {
-    color: var(--accent-primary);
     margin-bottom: 1rem;
     font-size: 2rem;
 }
 
 .card p {
     line-height: 1.8;
-    color: var(--text-secondary);
     font-size: 1.1rem;
 }
 
@@ -440,13 +432,11 @@ body {
 }
 
 .service-card h3 {
-    color: var(--accent-primary);
     margin-bottom: 1rem;
     font-size: 1.5rem;
 }
 
 .service-card p {
-    color: var(--text-secondary);
     font-size: 1rem;
 }
 
@@ -476,23 +466,20 @@ body {
 }
 
 .menu-item-info h4 {
-    color: var(--accent-primary);
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
 }
 
 .menu-item-info p {
-    color: var(--text-secondary);
     font-size: 0.9rem;
 }
 
 .menu-item-price {
-    color: var(--accent-primary);
     font-weight: bold;
     font-size: 1.2rem;
 }
 
-.testimonial {
+/* .testimonial {
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -516,24 +503,20 @@ body {
     top: -10px;
     left: 20px;
     font-size: 4rem;
-    color: var(--accent-primary);
     opacity: 0.3;
 }
 
 .testimonial-text {
-    color: var(--text-secondary);
     margin-bottom: 1rem;
     font-size: 1.1rem;
 }
 
 .testimonial-author {
-    color: var(--accent-primary);
     font-weight: bold;
     text-align: right;
-}
+} */
 
 .highlight {
-    color: var(--accent-secondary);
     font-weight: bold;
 }
 
