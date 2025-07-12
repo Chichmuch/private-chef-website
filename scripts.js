@@ -13,12 +13,14 @@ const themeToggleMain = document.getElementById('themeToggleMain');
 const langButtons = {
     hero: {
         en: document.getElementById('langEn'),
+        es: document.getElementById('langEs'),
         pl: document.getElementById('langPl'),
         ua: document.getElementById('langUa'),
         ru: document.getElementById('langRu')
     },
     main: {
         en: document.getElementById('langEnMain'),
+        es: document.getElementById('langEsMain'),
         pl: document.getElementById('langPlMain'),
         ua: document.getElementById('langUaMain'),
         ru: document.getElementById('langRuMain')

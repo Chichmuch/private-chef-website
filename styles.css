@@ -10,10 +10,11 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-weight: normal;
 }
 
 body {
-    font-family: 'Georgia', serif;
+    font-family: 'Cormorant', serif;
     overflow-x: hidden;
     transition: all 0.3s ease;
     position: relative;
@@ -105,7 +106,8 @@ body {
 }
 
 .hero-title {
-    font-size: 5rem;
+    font-family: 'Cormorant Unicase';
+    font-size: 7rem;
     font-weight: normal;
     margin-bottom: 1rem;
     color: var(--text-primary);
@@ -114,10 +116,10 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.5rem;
+    font-family: 'Great Vibes';
+    font-size: 4rem;
     color: var(--text-secondary);
     margin-bottom: 3rem;
-    font-style: italic;
     letter-spacing: 0.02em;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -171,6 +173,22 @@ body {
 @keyframes orbit-rotate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.hero-qr {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1;
+    transition: all 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-section.hidden .hero-qr {
+    transform: translateX(250px);
+    opacity: 0;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-controls {
@@ -307,7 +325,7 @@ body {
 }
 
 .content-wrapper {
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
     min-width: 0;
@@ -338,15 +356,15 @@ body {
 .content-section h2 {
     color: var(--accent-primary);
     margin-bottom: 1.5rem;
-    font-size: 2.2rem;
-    font-weight: normal;
+    font-family: 'Cormorant Unicase';
+    font-size: 3.2rem;
 }
 
 .content-section p {
     line-height: 1.8;
     margin-bottom: 1rem;
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
 }
 
 .content-section ul {
@@ -379,7 +397,6 @@ body {
     color: var(--accent-primary);
     margin-bottom: 1rem;
     font-size: 2rem;
-    font-weight: normal;
 }
 
 .card p {
