@@ -63,8 +63,8 @@ body {
 .hero-bg-rotating {
     position: absolute;
     top: -15%;
-    width: 120%;
-    height: 120%;
+    width: 130%;
+    height: 130%;
     background: url('hero-bg.png');
     background-size: cover;
     background-position: center;
@@ -155,7 +155,7 @@ body {
     margin-top: -200px;
     pointer-events: none;
     z-index: 2;
-    animation: orbit-rotate 10s linear infinite;
+    animation: orbit-rotate 30s linear infinite;
 }
 
 .hero-orbit-img {
@@ -279,24 +279,34 @@ body {
     transform: translateY(-2px);
 }
 
-.main-bg-fixed {
-    position: absolute;
-    top: 0;
-    left: 0;
+.main-bg {
+    position: fixed;
     width: 100vw;
     height: 100%;
-    background: var(--dark-green);
-    background-image: url('bg.jpg');
+    background-image: url('bg.png');
     background-size: cover;
     background-position: center;
     pointer-events: none;
     z-index: -5000;
 }
 
+.main-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-green);
+    opacity: 1;
+    mix-blend-mode: hard-light;
+    z-index: 1;
+}
+
 @keyframes riseUp {
     0% {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translateY(-40px);
     }
     100% {
         opacity: 1;
@@ -306,8 +316,6 @@ body {
 
 .main-content {
     position: relative;
-    min-height: 100vh;
-    height: 100%;
     background: transparent;
     transform: scale(1);
     opacity: 0;
