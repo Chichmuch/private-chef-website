@@ -257,3 +257,32 @@ window.addEventListener('resize', moveToNearestBlock);
 setInterval(moveToNearestBlock, 1000);
 
 moveToNearestBlock();
+
+
+
+const carouselImages = document.querySelectorAll('#carouselImages .carousel-image');
+const carouselPrev = document.getElementById('carouselPrev');
+const carouselNext = document.getElementById('carouselNext');
+let carouselIndex = 0;
+
+function showCarouselImage(idx) {
+    carouselImages.forEach((img, i) => {
+        img.classList.toggle('active', i === idx);
+    });
+}
+
+function nextCarouselImage() {
+    carouselIndex = (carouselIndex + 1) % carouselImages.length;
+    showCarouselImage(carouselIndex);
+}
+
+function prevCarouselImage() {
+    carouselIndex = (carouselIndex - 1 + carouselImages.length) % carouselImages.length;
+    showCarouselImage(carouselIndex);
+}
+
+if (carouselPrev && carouselNext && carouselImages.length) {
+    carouselPrev.addEventListener('click', prevCarouselImage);
+    carouselNext.addEventListener('click', nextCarouselImage);
+    showCarouselImage(carouselIndex);
+}
