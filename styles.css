@@ -345,7 +345,7 @@ body {
 .content-section h2 {
     margin-bottom: 1.5rem;
     font-family: 'Cormorant Unicase';
-    font-size: 3.2rem;
+    font-size: 2.5rem;
 }
 
 .content-section p {
@@ -363,7 +363,7 @@ body {
     font-size: 1.1rem;
 }
 
-.card {
+/* .card {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     background: var(--bg-glass);
@@ -387,7 +387,7 @@ body {
 .card p {
     line-height: 1.8;
     font-size: 1.1rem;
-}
+} 
 
 .services-grid {
     display: grid;
@@ -406,7 +406,6 @@ body {
     opacity: 0;
     transform: translateY(40px);
     animation: riseUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 2s both;
-}
 
 .main-content.visible .service-card {
     opacity: 1;
@@ -430,7 +429,7 @@ body {
 
 .service-card p {
     font-size: 1rem;
-}
+}*/
 
 .menu-item {
     background: var(--bg-glass);
