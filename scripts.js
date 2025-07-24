@@ -149,62 +149,107 @@ switchLanguage('en');
 
 
 
-    const wrapper = document.getElementById('floating-image-wrapper');
-    const image   = document.getElementById('floating-image');
+const wrapper = document.getElementById('floating-image-wrapper');
+        const image   = document.getElementById('floating-image');
 
-    let lastTarget = null;
-    let flipSide   = false;
+        let lastTarget = null;
+        let flipSide   = false;
+        let isAnimating = false;
 
-    function getCenterY(elem) {
-      const r = elem.getBoundingClientRect();
-      return r.top + r.height / 2;
-    }
-
-    function moveToNearestBlock() {
-      const blocks = document.querySelectorAll('.content-section');
-      const cy     = window.innerHeight / 2;
-      let minD     = Infinity;
-      let closest  = null;
-
-      blocks.forEach(b => {
-        const d = Math.abs(cy - getCenterY(b));
-        if (d < minD) {
-          minD    = d;
-          closest = b;
+        function getCenterY(elem) {
+            const r = elem.getBoundingClientRect();
+            return r.top + r.height / 2;
         }
-      });
 
-      if (closest && closest !== lastTarget) {
-        flipSide = !flipSide;
-        const r   = closest.getBoundingClientRect();
-        const top = r.top + window.scrollY + r.height / 2 - wrapper.offsetHeight / 2;
-        const left = flipSide
-          ? r.left + r.width + 10   // справа
-          : r.left - wrapper.offsetWidth - 10; // слева
+        function animateToPosition(targetTop, targetLeft, shouldFlip, callback) {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            const startTime = performance.now();
+            const duration = 800;
+            
+            const startTop = parseFloat(wrapper.style.top) || 0;
+            const startLeft = parseFloat(wrapper.style.left) || 0;
+            
+            const deltaTop = targetTop - startTop;
+            const deltaLeft = targetLeft - startLeft;
+            
+            image.classList.add('flying');
+            
+            if (shouldFlip) {
+                image.style.transform = flipSide ? 'scaleX(-1)' : 'scaleX(1)';
+            }
 
-        // Плавное перекручивание 360° вокруг своего центра
-        wrapper.animate([
-          { transform: 'translate(0,0) rotate(0deg)' },
-          { transform: 'translate(0,0) rotate(360deg)' }
-        ], {
-          duration: 800,
-          easing: 'ease-in-out'
-        });
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                
+                const currentTop = startTop + deltaTop * easeProgress;
+                const currentLeft = startLeft + deltaLeft * easeProgress;
+                
+                wrapper.style.top = currentTop + 'px';
+                wrapper.style.left = currentLeft + 'px';
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    isAnimating = false;
+                    image.classList.remove('flying');
+                    if (callback) callback();
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
 
-        // Устанавливаем позицию контейнера
-        wrapper.style.top  = `${top}px`;
-        wrapper.style.left = `${left}px`;
+        function moveToNearestBlock() {
+            if (isAnimating) return;
+            
+            const blocks = document.querySelectorAll('.content-section');
+            const cy     = window.innerHeight / 2;
+            let minD     = Infinity;
+            let closest  = null;
 
-        // А теперь инверсия — только на <img>
-        image.style.transform = flipSide
-          ? 'scaleX(-1)'
-          : 'scaleX(1)';
+            blocks.forEach(b => {
+                const d = Math.abs(cy - getCenterY(b));
+                if (d < minD) {
+                    minD    = d;
+                    closest = b;
+                }
+            });
 
-        lastTarget = closest;
-      }
-    }
+            if (closest && closest !== lastTarget) {
+                flipSide = !flipSide;
+                const r   = closest.getBoundingClientRect();
+                const targetTop = r.top + window.scrollY + r.height / 2 - wrapper.offsetHeight / 2;
+                const targetLeft = flipSide
+                    ? r.left + r.width + 10
+                    : r.left - wrapper.offsetWidth - 10;
 
-    window.addEventListener('scroll', moveToNearestBlock);
-    window.addEventListener('resize', moveToNearestBlock);
-    setInterval(moveToNearestBlock, 500);
-    moveToNearestBlock();
+                animateToPosition(targetTop, targetLeft, true);
+
+                lastTarget = closest;
+            }
+        }
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        window.addEventListener('scroll', throttle(moveToNearestBlock, 50));
+        window.addEventListener('resize', moveToNearestBlock);
+        
+        setInterval(moveToNearestBlock, 1000);
+        
+        moveToNearestBlock();
