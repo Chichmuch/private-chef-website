@@ -173,6 +173,19 @@ body {
     transform-origin: 50% 0%;
 }
 
+.hero-orbit-0 { transform: rotate(0deg) translateY(-550px) rotate(0deg); width: 96px; height: 96px; }
+.hero-orbit-30 { transform: rotate(30deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-60 { transform: rotate(60deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-90 { transform: rotate(90deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-120 { transform: rotate(120deg) translateY(-550px) rotate(0deg); width: 96px; height: 96px; }
+.hero-orbit-150 { transform: rotate(150deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-180 { transform: rotate(180deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-210 { transform: rotate(210deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-240 { transform: rotate(240deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-270 { transform: rotate(270deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-300 { transform: rotate(300deg) translateY(-550px) rotate(0deg); }
+.hero-orbit-330 { transform: rotate(330deg) translateY(-550px) rotate(0deg); }
+
 @keyframes orbit-rotate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -474,7 +487,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    /* transition: background 0.2s, color 0.2s, box-shadow 0.2s; */
     z-index: 3;
     box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
@@ -484,54 +497,24 @@ body {
     color: var(--khaki, #CABA9C);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .hero-title {
+        font-size: 5rem;
+    }
+    .hero-subtitle {
         font-size: 3rem;
     }
-    
-    .hero-subtitle {
-        font-size: 1.2rem;
-    }
-    
-    .hero-controls {
-        bottom: 60px;
-        gap: 3px;
-    }
-    
-    .lang-button {
-        width: 28px;
-        height: 28px;
-        font-size: 10px;
-    }
-    
-    .theme-button {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-    }
-    
-    .content-wrapper {
-        padding: 0.5rem;
-    }
 
-    .main-controls {
-        top: 10px;
-        right: 10px;
-        gap: 4px;
-    }
-
-    .content-section {
-        padding: 1.2rem;
-    }
-
-    .hero-orbit {
-        width: 220px;
-        height: 220px;
-        margin-left: -110px;
-        margin-top: -110px;
-    }
-    .hero-orbit-img {
-        width: 36px;
-        height: 36px;
-    }
+    .hero-orbit-0 { transform: rotate(0deg) translateY(-400px) rotate(0deg); width: 96px; height: 96px; }
+    .hero-orbit-30 { transform: rotate(30deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-60 { transform: rotate(60deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-90 { transform: rotate(90deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-120 { transform: rotate(120deg) translateY(-400px) rotate(0deg); width: 96px; height: 96px; }
+    .hero-orbit-150 { transform: rotate(150deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-180 { transform: rotate(180deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-210 { transform: rotate(210deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-240 { transform: rotate(240deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-270 { transform: rotate(270deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-300 { transform: rotate(300deg) translateY(-400px) rotate(0deg); }
+    .hero-orbit-330 { transform: rotate(330deg) translateY(-400px) rotate(0deg); }
 }
